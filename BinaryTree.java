@@ -1,6 +1,5 @@
-
 /*
- * *** PLACE YOUR NAME / SECTION HERE ***
+ * *** WILLIAM MORRIS / SECTION 002 ***
  *
  * Homework # 2 (Programming Assignment). This Java class defines a few basic
  * manipulation operations of a binary trees.
@@ -196,19 +195,15 @@ public class BinaryTree {
      *
      * YOUR CODE GOES BELOW
      *
-     * THERE IS NO NEED TO CHANGE ANY CODE ABOVE. DO NOT FORGET TO PLACE
-     * YOUR NAME AND SECTION NUMBER AT THE TOP OF THE FILE.
-     *
-     * YOU ARE TO WRITE THE METHODS:
+     * DO NOT MODIFY ANYTHING ABOVE THIS LINE. PLACE YOUR NAME AND SECTION
+     * NUMBER AT THE TOP OF THE FILE. IMPLEMENT THE FOLLOWING METHODS:
      *    - replaceValue
      *    - findMin
-     *    - NodesGT
+     *    - nodesGT
      *    - average
      *
      ***********************************************************/
-
-
-    /*
+/*
      * private method replaceValueHelper
      *
      * This method will traverse the tree using a depth first search
@@ -219,16 +214,18 @@ public class BinaryTree {
      * in very few lines of code.
      *
      */
-
     private void replaceValueHelper(Node node, int oldVal, int newVal) {
-
-        // ADD YOUR CODE HERE -- USE DEPTH FIRST SEARCH OF
-        // BINARY TREE (WHICH IS BASED ON RECURSION)
-
+        if (node == null) {
+            return;
+        }
+        if (node.data == oldVal) {
+            node.data = newVal;
+        }
+        replaceValueHelper(node.left, oldVal, newVal);
+        replaceValueHelper(node.right, oldVal, newVal);
     }
-
-
-    /*
+  
+  /*
      * private method findMinHelper()
      *
      * This method will traverse the tree using depth first search traversal and
@@ -241,16 +238,13 @@ public class BinaryTree {
      * Depth first search of the tree is based on recursion. This will result
      * in very few lines of code.
      */
-
     private int findMinHelper(Node node) {
-
-        // ADD YOUR CODE HERE -- USE DEPTH FIRST SEARCH OF
-        // BINARY TREE (WHICH IS BASED ON RECURSION)
-
-        return Integer.MAX_VALUE;
+        if (node == null) {
+            return Integer.MAX_VALUE;
+        }
+        return Math.min(node.data, Math.min(findMinHelper(node.left), findMinHelper(node.right)));
     }
-
-
+  
     /*
      * private method nodeGTHelper()
      *
@@ -263,20 +257,15 @@ public class BinaryTree {
      * Depth first search of the tree is based on recursion. This will result
      * in very few lines of code.
      */
-
     private int nodesGTHelper(Node node, int val) {
-
-        // ADD YOUR CODE HERE -- USE DEPTH FIRST SEARCH OF
-        // BINARY TREE (WHICH IS BASED ON RECURSION)
-
-        // RETURNING -1 IN THIS STUB, WHICH WILL FAIL ALL TESTS. REPLACE IT WITH YOUR CODE
-
-
-        return -1;
+        if (node == null) {
+            return 0;
+        }
+        int count = (node.data > val) ? 1 : 0;
+        return count + nodesGTHelper(node.left, val) + nodesGTHelper(node.right, val);
     }
 
-
-    /*
+  /*
      * public method average()
      *
      * This method will traverse the tree using depth first search traversal and
@@ -296,21 +285,25 @@ public class BinaryTree {
      * Depth first search of the tree is based on recursion. This will result
      * in very few lines of code within the helper method.
      */
-
-    public double average() {
+   public double average() {
         int[] sumAndCount = averageHelper(root);
         return (double) sumAndCount[0] / sumAndCount[1];
     }
 
-    private int[] averageHelper(Node n) {
+ 
+    private int[] averageHelper(Node node) {
+        if (node == null) {
+            return new int[]{0, 0};
+        }
+        int[] leftResult = averageHelper(node.left);
+        
+        int[] rightResult = averageHelper(node.right);
 
-        // ADD YOUR CODE HERE -- USE DEPTH FIRST SEARCH OF
-        // BINARY TREE (WHICH IS BASED ON RECURSION)
+        int totalSum = node.data + leftResult[0] + rightResult[0];
+        int totalCount = 1 + leftResult[1] + rightResult[1];
 
-        // RECALL, IF THE TREE IS EMPTY, RETURN 0 FOR BOTH THE SUM AND
-        // COUNT LOCATIONS IN THE RETURNED ARRAY AS SHOWN BELOW, ELSE
-        // THE 'SUM' IS RETURNED IN INDEX LOCATION 0, AND COUNT IS LOCATION 1
+        return new int[]{totalSum, totalCount};
 
-        return new int[]{0, 0};
     }
+
 }
